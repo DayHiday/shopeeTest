@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.7.6 on darwin)" generated="20210408 20:49:23.399" rpa="false">
+<suite id="s1" name="Api" source="/Users/muhammadhidayat/Automation API/Try Again/api_tests/api.robot">
+<test id="s1-t1" name="Create New User">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>${base_url}</arg>
+</arguments>
+<msg timestamp="20210408 20:49:23.964" level="INFO">Creating Session using : alias=mysession, url=https://gorest.co.in/public-api/users, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210408 20:49:23.963" endtime="20210408 20:49:23.965"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Authorization=${bearerToken}</arg>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20210408 20:49:23.968" level="INFO">${headers} = {'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20210408 20:49:23.966" endtime="20210408 20:49:23.968"></status>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<doc>Load JSON from file.</doc>
+<arguments>
+<arg>/Users/muhammadhidayat/Automation API/Try Again/api_tests/user.json</arg>
+</arguments>
+<assign>
+<var>${json_object}</var>
+</assign>
+<msg timestamp="20210408 20:49:23.970" level="INFO">${json_object} = {'email': 'day23@gmail.com', 'name': 'Dayat', 'gender': 'Male', 'status': 'Active'}</msg>
+<status status="PASS" starttime="20210408 20:49:23.968" endtime="20210408 20:49:23.970"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>/</arg>
+<arg>data=${json_object}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20210408 20:49:25.942" level="INFO">POST Request : url=https://gorest.co.in/public-api/users/ 
+ path_url=/public-api/users/ 
+ headers={'User-Agent': 'python-requests/2.24.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json', 'Content-Length': '83'} 
+ body={"email": "day23@gmail.com", "name": "Dayat", "gender": "Male", "status": "Active"} 
+ </msg>
+<msg timestamp="20210408 20:49:25.942" level="INFO">POST Response : url=https://gorest.co.in/public-api/users/ 
+ status=200, reason=OK 
+ body={"code":201,"meta":null,"data":{"id":1645,"name":"Dayat","email":"day23@gmail.com","gender":"Male","status":"Active","created_at":"2021-04-08T19:19:24.756+05:30","updated_at":"2021-04-08T19:19:24.756+05:30"}} 
+ </msg>
+<msg timestamp="20210408 20:49:25.942" level="INFO">/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20210408 20:49:25.942" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:23.971" endtime="20210408 20:49:25.943"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:25.943" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:25.943" endtime="20210408 20:49:25.943"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${response.json()['code']}</arg>
+<arg>201</arg>
+</arguments>
+<msg timestamp="20210408 20:49:25.944" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:25.944" endtime="20210408 20:49:25.945"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json_object}</var>
+</assign>
+<msg timestamp="20210408 20:49:25.946" level="INFO">To JSON using : content={"code":201,"meta":null,"data":{"id":1645,"name":"Dayat","email":"day23@gmail.com","gender":"Male","status":"Active","created_at":"2021-04-08T19:19:24.756+05:30","updated_at":"2021-04-08T19:19:24.756+05:30"}} </msg>
+<msg timestamp="20210408 20:49:25.946" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20210408 20:49:25.946" level="INFO">${json_object} = {'code': 201, 'meta': None, 'data': {'id': 1645, 'name': 'Dayat', 'email': 'day23@gmail.com', 'gender': 'Male', 'status': 'Active', 'created_at': '2021-04-08T19:19:24.756+05:30', 'updated_at': '2021-0...</msg>
+<status status="PASS" starttime="20210408 20:49:25.945" endtime="20210408 20:49:25.946"></status>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<doc>Get Value From JSON using JSONPath</doc>
+<arguments>
+<arg>${json_object}</arg>
+<arg>$.data.id</arg>
+</arguments>
+<assign>
+<var>${id_value}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.056" level="INFO">${id_value} = [1645]</msg>
+<status status="PASS" starttime="20210408 20:49:25.946" endtime="20210408 20:49:26.056"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${id_value[0]}</arg>
+</arguments>
+<status status="PASS" starttime="20210408 20:49:26.056" endtime="20210408 20:49:26.057"></status>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<arguments>
+<arg>${id_value[0]}</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.058" level="INFO">${id_value[0]} = 1645</msg>
+<status status="PASS" starttime="20210408 20:49:26.057" endtime="20210408 20:49:26.058"></status>
+</kw>
+<status status="PASS" starttime="20210408 20:49:23.957" endtime="20210408 20:49:26.059" critical="yes"></status>
+</test>
+<test id="s1-t2" name="Get User Detail">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>${base_url}/${id_value[0]}</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.063" level="INFO">Creating Session using : alias=mysession, url=https://gorest.co.in/public-api/users/1645, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210408 20:49:26.061" endtime="20210408 20:49:26.067"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Authorization=${bearerToken}</arg>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.068" level="INFO">${headers} = {'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20210408 20:49:26.067" endtime="20210408 20:49:26.068"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>/</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.363" level="INFO">GET Request : url=https://gorest.co.in/public-api/users/1645/ 
+ path_url=/public-api/users/1645/ 
+ headers={'User-Agent': 'python-requests/2.24.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20210408 20:49:26.363" level="INFO">GET Response : url=https://gorest.co.in/public-api/users/1645/ 
+ status=200, reason=OK 
+ body={"code":200,"meta":null,"data":{"id":1645,"name":"Dayat","email":"day23@gmail.com","gender":"Male","status":"Active","created_at":"2021-04-08T19:19:24.756+05:30","updated_at":"2021-04-08T19:19:24.756+05:30"}} 
+ </msg>
+<msg timestamp="20210408 20:49:26.363" level="INFO">/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20210408 20:49:26.364" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.068" endtime="20210408 20:49:26.364"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.366" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.364" endtime="20210408 20:49:26.366"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${response.json()['code']}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.368" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.368" endtime="20210408 20:49:26.373"></status>
+</kw>
+<status status="PASS" starttime="20210408 20:49:26.059" endtime="20210408 20:49:26.374" critical="yes"></status>
+</test>
+<test id="s1-t3" name="Update User Detail">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>${base_url}/${id_value[0]}</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.376" level="INFO">Creating Session using : alias=mysession, url=https://gorest.co.in/public-api/users/1645, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210408 20:49:26.375" endtime="20210408 20:49:26.377"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Authorization=${bearerToken}</arg>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.378" level="INFO">${headers} = {'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20210408 20:49:26.377" endtime="20210408 20:49:26.379"></status>
+</kw>
+<kw name="Load JSON From File" library="JSONLibrary">
+<doc>Load JSON from file.</doc>
+<arguments>
+<arg>/Users/muhammadhidayat/Automation API/Try Again/api_tests/userUpdate.json</arg>
+</arguments>
+<assign>
+<var>${json_object}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.381" level="INFO">${json_object} = {'name': 'Muhammad'}</msg>
+<status status="PASS" starttime="20210408 20:49:26.379" endtime="20210408 20:49:26.381"></status>
+</kw>
+<kw name="Put Request" library="RequestsLibrary">
+<doc>Send a PUT request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>/</arg>
+<arg>data=${json_object}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.685" level="INFO">PUT Request : url=https://gorest.co.in/public-api/users/1645/ 
+ path_url=/public-api/users/1645/ 
+ headers={'User-Agent': 'python-requests/2.24.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json', 'Content-Length': '20'} 
+ body={"name": "Muhammad"} 
+ </msg>
+<msg timestamp="20210408 20:49:26.686" level="INFO">PUT Response : url=https://gorest.co.in/public-api/users/1645/ 
+ status=200, reason=OK 
+ body={"code":200,"meta":null,"data":{"id":1645,"name":"Muhammad","email":"day23@gmail.com","gender":"Male","status":"Active","created_at":"2021-04-08T19:19:24.756+05:30","updated_at":"2021-04-08T19:19:26.539+05:30"}} 
+ </msg>
+<msg timestamp="20210408 20:49:26.686" level="INFO">/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20210408 20:49:26.686" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.381" endtime="20210408 20:49:26.686"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.687" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.686" endtime="20210408 20:49:26.687"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${response.json()['code']}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.687" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.687" endtime="20210408 20:49:26.688"></status>
+</kw>
+<kw name="To Json" library="RequestsLibrary">
+<doc>Convert a string to a JSON object</doc>
+<arguments>
+<arg>${response.content}</arg>
+</arguments>
+<assign>
+<var>${json_object}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.688" level="INFO">To JSON using : content={"code":200,"meta":null,"data":{"id":1645,"name":"Muhammad","email":"day23@gmail.com","gender":"Male","status":"Active","created_at":"2021-04-08T19:19:24.756+05:30","updated_at":"2021-04-08T19:19:26.539+05:30"}} </msg>
+<msg timestamp="20210408 20:49:26.688" level="INFO">To JSON using : pretty_print=False </msg>
+<msg timestamp="20210408 20:49:26.688" level="INFO">${json_object} = {'code': 200, 'meta': None, 'data': {'id': 1645, 'name': 'Muhammad', 'email': 'day23@gmail.com', 'gender': 'Male', 'status': 'Active', 'created_at': '2021-04-08T19:19:24.756+05:30', 'updated_at': '202...</msg>
+<status status="PASS" starttime="20210408 20:49:26.688" endtime="20210408 20:49:26.688"></status>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<doc>Get Value From JSON using JSONPath</doc>
+<arguments>
+<arg>${json_object}</arg>
+<arg>$.data.name</arg>
+</arguments>
+<assign>
+<var>${name_value}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.776" level="INFO">${name_value} = ['Muhammad']</msg>
+<status status="PASS" starttime="20210408 20:49:26.689" endtime="20210408 20:49:26.776"></status>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<doc>Logs the given message to the console.</doc>
+<arguments>
+<arg>${name_value[0]}</arg>
+</arguments>
+<status status="PASS" starttime="20210408 20:49:26.777" endtime="20210408 20:49:26.780"></status>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<doc>Fails if the given objects are unequal.</doc>
+<arguments>
+<arg>${name_value[0]}</arg>
+<arg>Muhammad</arg>
+</arguments>
+<status status="PASS" starttime="20210408 20:49:26.780" endtime="20210408 20:49:26.788"></status>
+</kw>
+<status status="PASS" starttime="20210408 20:49:26.374" endtime="20210408 20:49:26.789" critical="yes"></status>
+</test>
+<test id="s1-t4" name="Delete User">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>${base_url}/${id_value[0]}</arg>
+</arguments>
+<msg timestamp="20210408 20:49:26.792" level="INFO">Creating Session using : alias=mysession, url=https://gorest.co.in/public-api/users/1645, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20210408 20:49:26.791" endtime="20210408 20:49:26.793"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Authorization=${bearerToken}</arg>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20210408 20:49:26.795" level="INFO">${headers} = {'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20210408 20:49:26.793" endtime="20210408 20:49:26.795"></status>
+</kw>
+<kw name="Delete Request" library="RequestsLibrary">
+<doc>Send a DELETE request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>mysession</arg>
+<arg>/</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20210408 20:49:27.082" level="INFO">DELETE Request : url=https://gorest.co.in/public-api/users/1645/ 
+ path_url=/public-api/users/1645/ 
+ headers={'User-Agent': 'python-requests/2.24.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer f9d9bb242584d8560953ab2ae27cee65244e1c846ef776cfc37a9f20af8abc96', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20210408 20:49:27.082" level="INFO">DELETE Response : url=https://gorest.co.in/public-api/users/1645/ 
+ status=200, reason=OK 
+ body={"code":204,"meta":null,"data":null} 
+ </msg>
+<msg timestamp="20210408 20:49:27.082" level="INFO">/usr/local/lib/python3.7/site-packages/urllib3/connectionpool.py:988: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  InsecureRequestWarning,</msg>
+<msg timestamp="20210408 20:49:27.082" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:26.795" endtime="20210408 20:49:27.083"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${response.status_code}</arg>
+<arg>200</arg>
+</arguments>
+<msg timestamp="20210408 20:49:27.085" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:27.083" endtime="20210408 20:49:27.085"></status>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<arguments>
+<arg>${response.json()['code']}</arg>
+<arg>204</arg>
+</arguments>
+<msg timestamp="20210408 20:49:27.090" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20210408 20:49:27.087" endtime="20210408 20:49:27.090"></status>
+</kw>
+<status status="PASS" starttime="20210408 20:49:26.789" endtime="20210408 20:49:27.090" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20210408 20:49:23.403" endtime="20210408 20:49:27.092"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="0">Critical Tests</stat>
+<stat pass="4" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="0" id="s1" name="Api">Api</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
